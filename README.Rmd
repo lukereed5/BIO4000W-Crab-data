@@ -28,3 +28,6 @@ plot(pressure)
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+This project aims so study the population structure and dynamics of the population  of invasive green crabs ar Ganzekraal on the West Coast. The data was collected at night, an hour before the spring low tide. For an hour 4 people searched for and caught as many crabs as they could, after which the crabs were all weighed, measured for length and width, sexed and any missing limbs or presence of eggs was noted.
