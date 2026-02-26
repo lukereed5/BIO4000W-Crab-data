@@ -1,26 +1,27 @@
 rm(list = ls())
 library(readr)
-
-greencrab <- read.csv("Green Crab Ganzekraal.csv")
+install.packages("janitor")
+library(janitor)
+greencrab <-  read_csv("C:/Users/luker/Documents/GIT/BIO4000W-Crab-data/Green Crab Ganzekraal.csv")|>clean_names()
 
 
 # Convert empty strings to NA
-greencrab$Sex[greencrab$Sex == ""] <- NA
+greencrab$sex[greencrab$sex == ""] <- NA
 
 # Recreate SexStatus
-greencrab$SexStatus <- ifelse(greencrab$Sex == "F" & greencrab$Berried == "Y",
-                              "Berried female",
-                              greencrab$Sex)
+greencrab$sexstatus <- ifelse(greencrab$sex == "F" & greencrab$berried == "Y",
+                              "berried female",
+                              greencrab$sex)
 
 # Remove NA rows
-greencrab_clean <- subset(greencrab, !is.na(SexStatus))
+greencrab_clean <- subset(greencrab, !is.na(sexstatus))
 
 # Make table
-sex_counts <- as.data.frame(table(greencrab_clean$SexStatus))
-names(sex_counts) <- c("SexStatus", "Freq")
+sex_counts <- as.data.frame(table(greencrab_clean$sexstatus))
+names(sex_counts) <- c("sexstatus", "freq")
 
 # Add percent
-sex_counts$percent <- round(100 * sex_counts$Freq / sum(sex_counts$Freq), 1)
+sex_counts$percent <- round(100 * sex_counts$freq / sum(sex_counts$freq), 1)
 
 sex_counts
 #########test
@@ -29,13 +30,13 @@ library(ggplot2)
 # Make sure 'sex_counts' has the right column names
 # It should look like: Var1 (the category), Freq (the counts)
 # You can rename for clarity:
-names(sex_counts) <- c("SexStatus", "Freq")
+names(sex_counts) <- c("sexstatus", "freq")
 
 # Add percentage column
-sex_counts$percent <- round(100 * sex_counts$Freq / sum(sex_counts$Freq), 1)
+sex_counts$percent <- round(100 * sex_counts$freq / sum(sex_counts$freq), 1)
 
 #  plot pie chhart
-ggplot(sex_counts, aes(x = "", y = Freq, fill = SexStatus)) +
+ggplot(sex_counts, aes(x = "", y = freq, fill = sexstatus)) +
   geom_bar(stat = "identity", width = 1) +
   coord_polar("y") +
   theme_void() +
@@ -56,7 +57,7 @@ ggplot(sex_counts, aes(x = "", y = Freq, fill = SexStatus)) +
 
 library(ggplot2)
 ## regression
-ggplot(greencrab, aes(x = Width.Carapace, y = Weight, color = Sex)) +
+ggplot(greencrab, aes(x = width_carapace, y = weight, color = sex)) +
   geom_point(size = 3, alpha = 0.7) +
   geom_smooth(method = "lm", se = FALSE) +
   labs(
@@ -73,7 +74,7 @@ ggplot(greencrab, aes(x = Width.Carapace, y = Weight, color = Sex)) +
 
 
 # 2nd regression
-ggplot(greencrab, aes(x = Width.Carapace, y = Weight, color = SexStatus)) +
+ggplot(greencrab, aes(x = width_carapace, y = weight, color = sexstatus)) +
   geom_point(size = 3, alpha = 0.7) +
   geom_smooth(method = "lm", se = FALSE) +
   labs(
@@ -94,7 +95,7 @@ unique(greencrab$SexStatus)
 
 
 
-ggplot(greencrab, aes(x = Width.Carapace, fill = Sex)) +
+ggplot(greencrab, aes(x = width_carapace, fill = sex)) +
   geom_histogram(binwidth = 2, alpha = 0.7, position = "dodge") +
   theme_minimal() +
   ggtitle("Size-Frequency Distribution of Green Crabs")
