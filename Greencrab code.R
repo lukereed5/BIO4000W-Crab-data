@@ -2,7 +2,7 @@ rm(list = ls())
 library(readr)
 install.packages("janitor")
 library(janitor)
-greencrab <-  read_csv("C:/Users/luker/Documents/GIT/BIO4000W-Crab-data/Green Crab Ganzekraal.csv")|>clean_names()
+greencrab <-  read_csv("Green Crab Ganzekraal.csv")|>clean_names()
 
 
 # Convert empty strings to NA
